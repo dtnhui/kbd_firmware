@@ -1,0 +1,15 @@
+{
+    "development_board": "promicro_rp2040",
+    "diode_direction": "COL2ROW",
+    "matrix_pins": {
+        "cols": ["GP29", "GP28", "GP27", "GP26", "GP22", "GP20"],
+        "rows": ["GP4", "GP5", "GP6", "GP7"]
+    },
+    "split": {
+        "soft_serial_pin": "GP1"
+    },
+    "ws2812": {
+        "driver": "vendor",
+        "pin": "GP0"
+    }
+}
