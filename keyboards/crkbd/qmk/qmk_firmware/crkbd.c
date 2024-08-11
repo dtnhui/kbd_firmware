@@ -51,6 +51,12 @@ static void oled_render_layer_state(void) {
     }
 }
 
+static void oled_render_caps_lock(void) {
+    led_t led_state = host_keyboard_led_state();
+    oled_write_P(PSTR("CAPS: "), false);
+    oled_write_ln_P(led_state.caps_lock ? PSTR("on") : PSTR("off"), false);
+}
+
 char     key_name = ' ';
 uint16_t last_keycode;
 uint8_t  last_row;
@@ -136,6 +142,7 @@ bool oled_task_kb(void) {
     }
     if (is_keyboard_master()) {
         oled_render_layer_state();
+        oled_render_caps_lock();
         oled_render_keylog();
     } else {
         oled_render_logo();
