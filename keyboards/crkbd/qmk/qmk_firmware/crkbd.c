@@ -20,11 +20,7 @@
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_kb(oled_rotation_t rotation) {
-#ifdef SPLIT_HAND_PIN
-    if (!is_keyboard_left()) {
-#else
     if (!is_keyboard_master()) {
-#endif
         return OLED_ROTATION_180; // flips the display 180 degrees if offhand
     }
     return rotation;
@@ -49,12 +45,6 @@ static void oled_render_layer_state(void) {
             oled_write_ln_P(PSTR("Undef"), false);
             break;
     }
-}
-
-static void oled_render_caps_lock(void) {
-    led_t led_state = host_keyboard_led_state();
-    oled_write_P(PSTR("CAPS: "), false);
-    oled_write_ln_P(led_state.caps_lock ? PSTR("on") : PSTR("off"), false);
 }
 
 char     key_name = ' ';
@@ -142,7 +132,6 @@ bool oled_task_kb(void) {
     }
     if (is_keyboard_master()) {
         oled_render_layer_state();
-        oled_render_caps_lock();
         oled_render_keylog();
     } else {
         oled_render_logo();
