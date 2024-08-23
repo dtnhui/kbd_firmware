@@ -22,6 +22,7 @@ make git-submodule
 make qmk-clean
 kb=crkbd make qmk-init
 kb=crkbd kr=rev3/rp2040 km=custom make qmk-compile
+kb=crkbd kr=rev3/rp2040 km=colemak make qmk-compile
 ```
 A built data will be stored on `keyboards/crkbd/qmk/qmk_firmware/.build`\
 Please change `kb`, `kr` and `km` when build other.
@@ -31,6 +32,7 @@ Please change `kb`, `kr` and `km` when build other.
 make vial-qmk-clean
 kb=crkbd make vial-qmk-init
 kb=crkbd kr=rev3/rp2040 km=custom make vial-qmk-compile
+kb=crkbd kr=rev3/rp2040 km=colemak make vial-qmk-compile
 ```
 A built data will be stored on `keyboards/crkbd/vial-kb/vial-qmk/.build`\
 Please change `kb`, `kr` and `km` when build other.
