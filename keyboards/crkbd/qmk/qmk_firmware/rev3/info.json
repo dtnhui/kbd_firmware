@@ -204,7 +204,8 @@
         "enabled": true,
         "transport": {
             "sync": {
-                "matrix_state": true
+                "matrix_state": true,
+                "oled": true
             }
         },
         "usb_detect": {
