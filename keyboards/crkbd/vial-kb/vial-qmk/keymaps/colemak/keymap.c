@@ -43,6 +43,8 @@ enum custom_keycodes {
 #define SFT_TAB     SFT_T(KC_TAB)
 #define SFT_BSPC    SFT_T(KC_BSPC)
 #define CTL_DEL     CTL_T(KC_DEL)
+#define GUI_GRV     GUI_T(KC_GRV)
+#define GUI_BSLS    GUI_T(KC_BSLS)
 
 #define ALT_PSCR    A(KC_PSCR)
 #define CG_LEFT     C(G(KC_LEFT))
@@ -104,8 +106,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|    ~   |    !   |    @   |    #   |    $   |    %   |                    |    ^   |    &   |    *   |    (   |    )   |    |   |
       KC_TILD, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_PIPE,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|   gui  |    4   |    2   |    3   |    1   |    5   |                    |    6   |    0   |    8   |    9   |    7   |   gui  |
-      KC_LGUI,    KC_4,    KC_2,    KC_3,    KC_1,    KC_5,                         KC_6,    KC_0,    KC_8,    KC_9,    KC_7, KC_RGUI,
+  //|  gui/` |    4   |    2   |    3   |    1   |    5   |                    |    6   |    0   |    8   |    9   |    7   |  gui/\ |
+      GUI_GRV,    KC_4,    KC_2,    KC_3,    KC_1,    KC_5,                         KC_6,    KC_0,    KC_8,    KC_9,    KC_7,GUI_BSLS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
   //|   alt  |   L4   |    {   |    +   |    _   |    }   |                    |    ]   |    -   |    =   |    [   |        |   alt  |
       KC_LALT, MO_KPAD, KC_LCBR, KC_PLUS, KC_UNDS, KC_RCBR,                      KC_RBRC, KC_MINS,  KC_EQL, KC_LBRC, XXXXXXX, KC_RALT,
