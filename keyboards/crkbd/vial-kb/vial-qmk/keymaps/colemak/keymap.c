@@ -165,16 +165,64 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 #ifdef OLED_ENABLE
+#define ANIM_FRAME_DURATION 500 // in units of milliseconds
+
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    if (is_keyboard_master()) {
-        return OLED_ROTATION_270;
+    return OLED_ROTATION_270;
+}
+
+static void oled_render_matrix_rain(void) {
+    static const char PROGMEM BASE64_CHAR[] = {
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+        'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+        'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+        'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
+    };
+    static bool generate_x = true;
+    static uint32_t anim_timer = 0;
+    static bool rain_dropped = false;
+    static uint32_t rain_x = 0;
+    static uint32_t rain_y = 0;
+    static uint32_t rain_len = 6;
+    static uint32_t tail_y = 0;
+    char rain;
+
+    if (!is_oled_on()) {
+        oled_clear();
+        generate_x = true;
+        anim_timer = 0;
+        rain_dropped = false;
+        return;
     }
-#ifdef SPLIT_HAND_PIN
-    if (is_keyboard_left()) {
-        return OLED_ROTATION_0;
+    if (generate_x) {
+        generate_x = false;
+        rain_x = rand() % oled_max_chars();
     }
-#endif
-    return rotation;
+    if (timer_elapsed32(anim_timer) < ANIM_FRAME_DURATION) {
+        if (rain_y < oled_max_lines()) {
+            rain = BASE64_CHAR[rand() % sizeof(BASE64_CHAR)];
+            oled_set_cursor(rain_x, rain_y);
+            oled_write_char(rain, false);
+        }
+        return;
+    }
+    anim_timer = timer_read32();
+    if (!rain_dropped) {
+        rain_dropped = true;
+        rain_y = 0;
+        rain_len = 6 + (rand() % 4);
+        tail_y = 0;
+    }
+    if (rain_y > rain_len) {
+        if (tail_y < oled_max_lines()) {
+            oled_set_cursor(rain_x, tail_y++);
+            oled_write_char(' ', false);
+        }
+    }
+    if (rain_y++ == (oled_max_lines() + rain_len + 1)) {
+        generate_x = true;
+    	rain_dropped = false;
+    }
 }
 
 void oled_render_4layers_state(void) {
@@ -547,10 +595,10 @@ void oled_render_5layers_state(void) {
 
 bool oled_task_user(void) {
     if (!is_keyboard_master()) {
-        return true;
+        oled_render_matrix_rain();
     } else {
         oled_render_5layers_state();
-        return false;
     }
+    return false;
 }
 #endif
