@@ -165,7 +165,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 #ifdef OLED_ENABLE
-#define ANIM_FRAME_DURATION 500 // in units of milliseconds
+#define ANIM_FRAME_DURATION 100 // in units of milliseconds
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return OLED_ROTATION_270;
@@ -178,50 +178,64 @@ static void oled_render_matrix_rain(void) {
         'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
         'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
     };
-    static bool generate_x = true;
     static uint32_t anim_timer = 0;
-    static bool rain_dropped = false;
-    static uint32_t rain_x = 0;
-    static uint32_t rain_y = 0;
-    static uint32_t rain_len = 6;
-    static uint32_t tail_y = 0;
-    char rain;
+    static uint32_t frame = 0;
+    static bool rain_dropped[5] = {false};
+    static int32_t rain_y[5] = {0};
+    static uint32_t rain_len[5] = {0};
+    static uint32_t tail_y[5] = {0};
+    static uint32_t rain_speed[5] = {0};
 
+    /* Display Off */
     if (!is_oled_on()) {
         oled_clear();
-        generate_x = true;
         anim_timer = 0;
-        rain_dropped = false;
+        frame = 0;
+        for (uint32_t i = 0; i < oled_max_chars(); i++) {
+            rain_dropped[i] = false;
+        }
         return;
     }
-    if (generate_x) {
-        generate_x = false;
-        rain_x = rand() % oled_max_chars();
-    }
+
+    /* Character Spinning */
     if (timer_elapsed32(anim_timer) < ANIM_FRAME_DURATION) {
-        if (rain_y < oled_max_lines()) {
-            rain = BASE64_CHAR[rand() % sizeof(BASE64_CHAR)];
-            oled_set_cursor(rain_x, rain_y);
-            oled_write_char(rain, false);
+        for (uint32_t i = 0; i < oled_max_chars(); i++) {
+            if (rain_y[i] < 0) {
+                // Out of Display
+            } else if (rain_y[i] < oled_max_lines()) {
+                oled_set_cursor(i, rain_y[i]);
+                oled_write_char(BASE64_CHAR[rand() % sizeof(BASE64_CHAR)], false);
+            }
         }
         return;
     }
+
+    /* New frame */
+    frame++;
     anim_timer = timer_read32();
-    if (!rain_dropped) {
-        rain_dropped = true;
-        rain_y = 0;
-        rain_len = 6 + (rand() % 4);
-        tail_y = 0;
-    }
-    if (rain_y > rain_len) {
-        if (tail_y < oled_max_lines()) {
-            oled_set_cursor(rain_x, tail_y++);
-            oled_write_char(' ', false);
+    for (uint32_t i = 0; i < oled_max_chars(); i++) {
+        /* Re-Initialization */
+        if (!rain_dropped[i]) {
+            rain_dropped[i] = true;
+            rain_y[i] = 0 - (rand() % oled_max_lines() / 2);
+            rain_len[i] = (oled_max_lines() / 4) + (rand() % oled_max_lines() / 2);
+            tail_y[i] = 0;
+            rain_speed[i] = 1 + (rand() % oled_max_chars());
         }
-    }
-    if (rain_y++ == (oled_max_lines() + rain_len + 1)) {
-        generate_x = true;
-    	rain_dropped = false;
+        /* Rain */
+        if ((frame % rain_speed[i]) == 0) {
+            if (rain_y[i] < 0) {
+                // Out of Display
+            } else if (rain_y[i] > rain_len[i]) {
+                if (tail_y[i] < oled_max_lines()) {
+                    oled_set_cursor(i, tail_y[i]++);
+                    oled_write_char(' ', false);
+                }
+            }
+            if (rain_y[i]++ == (oled_max_lines() + rain_len[i] + 1)) {
+                rain_dropped[i] = false;
+            }
+        }
     }
 }
 
