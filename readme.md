@@ -34,6 +34,15 @@ kb=crkbd kr=rev3/rp2040 km=custom make vial-qmk-compile
 A built data will be stored on `keyboards/crkbd/vial-kb/vial-qmk/.build`\
 Please change `kb`, `kr` and `km` when build other.
 
+### Matrix Digital Rain (Only Vial version)
+```sh
+make vial-qmk-clean
+kb=crkbd make vial-qmk-init
+kb=crkbd kr=rev3/rp2040 km=colemak make vial-qmk-compile
+```
+A built data will be stored on `keyboards/crkbd/vial-kb/vial-qmk/.build`\
+Please change `kb`, `kr` and `km` when build other.
+
 #### 4-Layers Display
 ![4_layers_animation](https://github.com/user-attachments/assets/ecfc0f62-328f-4c5e-b59c-65102dc1ac18)
 
