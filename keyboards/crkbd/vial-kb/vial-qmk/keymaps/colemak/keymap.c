@@ -174,11 +174,11 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 static void oled_render_matrix_rain(void) {
-    static const char PROGMEM BASE64_CHAR[] = {
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
-        'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
-        'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-        'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
+    static const char PROGMEM BASE58_CHAR[] = {
+        '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G',
+        'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y',
+        'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'n', 'o', 'p',
+        'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
     };
     static uint32_t anim_timer = 0;
     static uint32_t frame = 0;
@@ -206,7 +206,7 @@ static void oled_render_matrix_rain(void) {
                 // Out of Display
             } else if (rain_y[i] < oled_max_lines()) {
                 oled_set_cursor(i, rain_y[i]);
-                oled_write_char(BASE64_CHAR[rand() % sizeof(BASE64_CHAR)], false);
+                oled_write_char(BASE58_CHAR[rand() % sizeof(BASE58_CHAR)], false);
             }
         }
         return;
@@ -234,8 +234,19 @@ static void oled_render_matrix_rain(void) {
                     oled_write_char(' ', false);
                 }
             }
-            if (rain_y[i]++ == (oled_max_lines() + rain_len[i] + 1)) {
+            if (rain_y[i]++ == (oled_max_lines() + rain_len[i])) {
                 rain_dropped[i] = false;
+            }
+            /* Glitch */
+            uint32_t glitch_total = rand() % rain_len[i];
+            for (uint32_t j = 0; j < glitch_total; j++) {
+                if ((rain_y[i] > 0) && (tail_y[i] < oled_max_lines())) {
+                    uint32_t glitch_y = tail_y[i] + (rand() % (rain_y[i] - tail_y[i]));
+                    if (glitch_y < oled_max_lines()) {
+                        oled_set_cursor(i, glitch_y);
+                        oled_write_char(BASE58_CHAR[rand() % sizeof(BASE58_CHAR)], false);
+                    }
+                }
             }
         }
     }
