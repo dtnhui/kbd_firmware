@@ -21,26 +21,68 @@ enum layers {
     _QWERTY,    // Qwerty Layout
     _NAV,       // Navigation
     _NUM,       // Number & Symbol
-    _KPAD,       // Keypad
-    _FUNC,       // Function
+    _KPAD,      // Keypad & Mouse
+    _FUNC,      // Function
 };
 
+/* Layers */
+#define MO_NAV      MO(_NAV)
+#define MO_NUM      MO(_NUM)
+#define MO_KPAD     MO(_KPAD)
+#define MO_FUNC     MO(_FUNC)
+/* One-shot Modifiers */
+#define O_LSFT      OSM(MOD_LSFT)
+#define O_LCTL      OSM(MOD_LCTL)
+#define O_LALT      OSM(MOD_LALT)
+#define O_LGUI      OSM(MOD_LGUI)
+#define O_RSFT      OSM(MOD_RSFT)
+#define O_RCTL      OSM(MOD_RCTL)
+#define O_RALT      OSM(MOD_RALT)
+#define O_RGUI      OSM(MOD_RGUI)
+/* Thumb Row Mods */
+#define LC_ESC      LCTL_T(KC_ESC)
 #define NUM_SPC     LT(_NUM, KC_SPC)
+#define FUNC_SPC    LT(_FUNC, KC_SPC)
+#define LS_TAB      LSFT_T(KC_TAB)
+#define LS_ESC      LSFT_T(KC_ESC)
+#define RS_BSPC     RSFT_T(KC_BSPC)
+#define RS_DEL      RSFT_T(KC_DEL)
 #define NAV_ENT     LT(_NAV, KC_ENT)
 #define FUNC_ENT    LT(_FUNC, KC_ENT)
-#define MO_FUNC     MO(_FUNC)
-#define MO_KPAD     MO(_KPAD)
-
-#define GUI_CAPS    GUI_T(KC_CAPS)
-#define GUI_QUOT    GUI_T(KC_QUOT)
-#define CTL_ESC     CTL_T(KC_ESC)
-#define SFT_TAB     SFT_T(KC_TAB)
-#define SFT_BSPC    SFT_T(KC_BSPC)
-#define CTL_DEL     CTL_T(KC_DEL)
-
+#define RC_DEL      RCTL_T(KC_DEL)
+/* Home Row Mods */
+#define LG_A        LGUI_T(KC_A)
+#define LA_S        LALT_T(KC_S)
+#define LC_D        LCTL_T(KC_D)
+#define LS_F        LSFT_T(KC_F)
+#define RS_J        RSFT_T(KC_J)
+#define RC_K        RCTL_T(KC_K)
+#define RA_L        RALT_T(KC_L)
+#define RG_SCLN     RGUI_T(KC_SCLN)
+#define LA_R        LALT_T(KC_R)
+#define LC_S        LCTL_T(KC_S)
+#define LS_T        LSFT_T(KC_T)
+#define RS_N        RSFT_T(KC_N)
+#define RC_E        RCTL_T(KC_E)
+#define RA_I        RALT_T(KC_I)
+#define RG_O        RGUI_T(KC_O)
+#define LG_1        LGUI_T(KC_1)
+#define LA_2        LALT_T(KC_2)
+#define LC_3        LCTL_T(KC_3)
+#define LS_4        LSFT_T(KC_4)
+#define RS_7        RSFT_T(KC_7)
+#define RC_8        RCTL_T(KC_8)
+#define RA_9        RALT_T(KC_9)
+#define RG_0        RGUI_T(KC_0)
+/* Windows Hotkeys */
 #define ALT_PSCR    A(KC_PSCR)
+#define SG_S        S(G(KC_S))
+#define CTL_INS     C(KC_INS)
+#define SFT_INS     S(KC_INS)
+#define SFT_ALT     S(KC_LALT)
 #define CG_LEFT     C(G(KC_LEFT))
 #define CG_RGHT     C(G(KC_RGHT))
+#define GUI_D       G(KC_D)
 #define GUI_L       G(KC_L)
 #define CA_DEL      C(A(KC_DEL))
 
@@ -50,93 +92,166 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|    `   |    q   |    w   |    e   |    r   |    t   |                    |    y   |    u   |    i   |    o   |    p   |    \   |
        KC_GRV,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSLS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|gui/caps|    a   |    s   |    d   |    f   |    g   |                    |    h   |    j   |    k   |    l   |    ;   |  gui/' |
-     GUI_CAPS,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,GUI_QUOT,
+  //|  Caps  |    a   |    s   |    d   |    f   |    g   |                    |    h   |    j   |    k   |    l   |    ;   |    '   |
+      KC_CAPS,    LG_A,    LA_S,    LC_D,    LS_F,    KC_G,                         KC_H,    RS_J,    RC_K,    RA_L, RG_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|   alt  |    z   |    x   |    c   |    v   |    b   |                    |    n   |    m   |    ,   |    .   |    /   |   alt  |
-      KC_LALT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RALT,
+  //| LShift |    z   |    x   |    c   |    v   |    b   |                    |    n   |    m   |    ,   |    .   |    /   | RShift |
+      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                      //| ctl/esc| L2/spc | sft/tab|  |sft/bspc| L1/ent | ctl/del|
-                                          CTL_ESC, NUM_SPC, SFT_TAB,   SFT_BSPC, NAV_ENT, CTL_DEL
+                                      //|   Esc  | L3(SPC)|  Tabs  |  |  BSPC  | L2(ENT)|   DEL  |
+                                           LC_ESC, NUM_SPC,  LS_TAB,    RS_BSPC, NAV_ENT,  RC_DEL
                                       //|--------------------------|  |--------------------------|
   ),
 
   [_NAV] = LAYOUT_split_3x6_3 (
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
-  //|   esc  |        |        |        |        |        |                    |        | pageup |   up   |pagedown|        |  bspc  |
-       KC_ESC, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_PGUP,   KC_UP, KC_PGDN, XXXXXXX, KC_BSPC,
+  //|        |        |  SG+s  |Alt+PSCR| Insert |        |                    |        | PageUp |   Up   |PageDown| Delete |        |
+      XXXXXXX, XXXXXXX,    SG_S,ALT_PSCR,  KC_INS, XXXXXXX,                      XXXXXXX, KC_PGUP,   KC_UP, KC_PGDN,  KC_DEL, XXXXXXX,
+  //|--------+--------|--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+  //|        |  LGUI  |  LALT  |  LCTL  |  LSFT  |        |                    |  Home  |  Left  |  Down  |  Right |   End  | Keypad |
+      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT,  KC_END, MO_KPAD,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|   gui  |        |        |alt+pscr| insert |        |                    |  home  |  left  |  down  |  right |   end  |   gui  |
-      KC_LGUI, XXXXXXX, XXXXXXX,ALT_PSCR,  KC_INS, XXXXXXX,                      KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT,  KC_END, KC_RGUI,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|   alt  |        |        |        |        |        |                    |        | cg+left|        |cg+right|        |   alt  |
-      KC_LALT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, CG_LEFT, XXXXXXX, CG_RGHT, XXXXXXX, KC_RALT,
+  //|        |        |        | LC+INS | LS+INS |        |                    |        | CG+Left| LGUI+D |CG+Right| LS+Alt |        |
+      _______, XXXXXXX, XXXXXXX, CTL_INS, SFT_INS, XXXXXXX,                      XXXXXXX, CG_LEFT,   GUI_D, CG_RGHT, SFT_ALT, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                      //|   ctl  |   L4   |  shift |  |        |        |        |
-                                          KC_LCTL, MO_FUNC, KC_LSFT,    XXXXXXX, XXXXXXX, XXXXXXX
+                                      //|        |Tri(SPC)|        |  |        |        |        |
+                                          _______,FUNC_SPC, _______,    XXXXXXX, XXXXXXX, XXXXXXX
                                       //|--------------------------|  |--------------------------|
   ),
 
   [_NUM] = LAYOUT_split_3x6_3 (
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
-  //|    ~   |    !   |    @   |    #   |    $   |    %   |                    |    ^   |    &   |    *   |    (   |    )   |    |   |
-      KC_TILD, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_PIPE,
+  //|        |    `   |    [   |        |        |        |                    |        |    -   |    =   |    ]   |    \   |        |
+      XXXXXXX,  KC_GRV, KC_LBRC, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_MINS,  KC_EQL, KC_RBRC, KC_BSLS, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|   gui  |    4   |    2   |    3   |    1   |    5   |                    |    6   |    0   |    8   |    9   |    7   |   gui  |
-      KC_LGUI,    KC_4,    KC_2,    KC_3,    KC_1,    KC_5,                         KC_6,    KC_0,    KC_8,    KC_9,    KC_7, KC_RGUI,
+  //| Keypad |    1   |    2   |    3   |    4   |    5   |                    |    6   |    7   |    8   |    9   |    0   |        |
+      MO_KPAD,    LG_1,    LA_2,    LC_3,    LS_4,    KC_5,                         KC_6,    RS_7,    RC_8,    RA_9,    RG_0, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|   alt  |   L3   |    {   |    +   |    _   |    }   |                    |    ]   |    -   |    =   |    [   |        |   alt  |
-      KC_LALT, MO_KPAD, KC_LCBR, KC_PLUS, KC_UNDS, KC_RCBR,                      KC_RBRC, KC_MINS,  KC_EQL, KC_LBRC, XXXXXXX, KC_RALT,
+  //|        |        |        |        |        |        |                    |        |        |        |        |        |        |
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                      //|        |        |        |  |        | L4/ent |        |
+                                      //|        |        |        |  |        |Tri(ENT)|        |
                                           XXXXXXX, XXXXXXX, XXXXXXX,    _______,FUNC_ENT, _______
                                       //|--------------------------|  |--------------------------|
   ),
 
   [_KPAD] = LAYOUT_split_3x6_3 (
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
-  //|        |        |        |        |        |        |                    |    /   |    7   |    8   |    9   |    -   |        |
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_SLSH,    KC_7,    KC_8,    KC_9, KC_MINS, XXXXXXX,
+  //|        |        |        |        |        |        |                    |    /   |    7   |    8   |    9   |    *   |        |
+      XXXXXXX, XXXXXXX, KC_WH_D, KC_MS_U, KC_WH_U, XXXXXXX,                      KC_SLSH,    KC_7,    KC_8,    KC_9, KC_ASTR, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|        |        |        |        |        |        |                    |    *   |    4   |    5   |    6   |    +   |        |
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_ASTR,    KC_4,    KC_5,    KC_6, KC_PLUS, XXXXXXX,
+  //|        |        |        |        |        |        |                    |    -   |    4   |    5   |    6   |    +   |        |
+      XXXXXXX, XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX,                      KC_MINS,    KC_4,    KC_5,    KC_6, KC_PLUS, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|        |        |        |        |        |        |                    |   esc  |    1   |    2   |    3   |  enter |        |
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       KC_ESC,    KC_1,    KC_2,    KC_3,  KC_ENT, XXXXXXX,
+  //|        |        |        |        |        |        |                    |   Esc  |    1   |    2   |    3   |  Enter |        |
+      XXXXXXX, XXXXXXX, KC_WH_L, KC_BTN3, KC_WH_R, XXXXXXX,                       KC_ESC,    KC_1,    KC_2,    KC_3,  KC_ENT, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                      //|        |        |        |  |  bspc  |    0   |    .   |
-                                          XXXXXXX, XXXXXXX, XXXXXXX,    KC_BSPC,    KC_0,  KC_DOT
+                                      //|        |        |        |  | BSpace |    0   |    .   |
+                                          XXXXXXX, KC_BTN1, KC_BTN2,    KC_BSPC,    KC_0,  KC_DOT
                                       //|--------------------------|  |--------------------------|
   ),
 
   [_FUNC] = LAYOUT_split_3x6_3 (
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
-  //|  gui+l |   F1   |   F2   |   F3   |   F4   |        |                    | rainbow|        |        |        |        | ca+del |
-        GUI_L,   KC_F1,   KC_F2,   KC_F3,   KC_F4, XXXXXXX,                      RGB_M_R, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  CA_DEL,
+  //|        |   F1   |   F2   |   F3   |   F4   | Speed+ |                    |  Hue+  | LGUI+L |        |        | CA+DEL |        |
+      XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, RGB_SPI,                      RGB_HUI,   GUI_L, XXXXXXX, XXXXXXX,  CA_DEL, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|   gui  |   F5   |   F6   |   F7   |   F8   |        |                    | on/off |  mute  | vol dn | vol up |  calc  |   gui  |
-      KC_LGUI,   KC_F5,   KC_F6,   KC_F7,   KC_F8, XXXXXXX,                      RGB_TOG, KC_MUTE, KC_VOLD, KC_VOLU, KC_CALC, KC_RGUI,
+  //|        |   F5   |   F6   |   F7   |   F8   | Rainbow|                    | Breath |  RSFT  |  RCTL  |  RALT  |  RGUI  |        |
+      XXXXXXX,   KC_F5,   KC_F6,   KC_F7,   KC_F8, RGB_M_R,                      RGB_M_B, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|   alt  |   F9   |   F10  |   F11  |   F12  |        |                    | breath |        |        |        |        |   alt  |
-      KC_LALT,   KC_F9,  KC_F10,  KC_F11,  KC_F12, XXXXXXX,                      RGB_M_B, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_RALT,
+  //|        |   F9   |   F10  |   F11  |   F12  | Speed- |                    |  Hue-  |  Mute  |  Vol-  |  Vol+  |  Calc  |        |
+      XXXXXXX,   KC_F9,  KC_F10,  KC_F11,  KC_F12, RGB_SPD,                      RGB_HUD, KC_MUTE, KC_VOLD, KC_VOLU, KC_CALC, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                      //| spd dec|        | spd inc|  | hue inc|        | hue dec|
-                                          RGB_SPD, XXXXXXX, RGB_SPI,    RGB_HUI, XXXXXXX, RGB_HUD
+                                      //| Bright-|        | Bright+|  | On/Off |        |  Plain |
+                                          RGB_VAD, XXXXXXX, RGB_VAI,    RGB_TOG, XXXXXXX, RGB_M_P
                                       //|--------------------------|  |--------------------------|
   )
 };
 
 #ifdef OLED_ENABLE
+#define ANIM_FRAME_DURATION 100 // in units of milliseconds
+
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    if (is_keyboard_master()) {
-        return OLED_ROTATION_270;
+    return OLED_ROTATION_270;
+}
+
+static void oled_render_matrix_rain(void) {
+    static const char PROGMEM BASE58_CHAR[] = {
+        '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G',
+        'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y',
+        'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'n', 'o', 'p',
+        'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+    };
+    static uint32_t anim_timer = 0;
+    static uint32_t frame = 0;
+    static bool rain_dropped[5] = {false};
+    static int32_t rain_y[5] = {0};
+    static uint32_t rain_len[5] = {0};
+    static uint32_t tail_y[5] = {0};
+    static uint32_t rain_speed[5] = {0};
+
+    /* Display Off */
+    if (!is_oled_on()) {
+        oled_clear();
+        anim_timer = 0;
+        frame = 0;
+        for (uint32_t i = 0; i < oled_max_chars(); i++) {
+            rain_dropped[i] = false;
+        }
+        return;
     }
-#ifdef SPLIT_HAND_PIN
-    if (is_keyboard_left()) {
-        return OLED_ROTATION_0;
+
+    /* Character Spinning */
+    if (timer_elapsed32(anim_timer) < ANIM_FRAME_DURATION) {
+        for (uint32_t i = 0; i < oled_max_chars(); i++) {
+            if (rain_y[i] < 0) {
+                // Out of Display
+            } else if (rain_y[i] < oled_max_lines()) {
+                oled_set_cursor(i, rain_y[i]);
+                oled_write_char(BASE58_CHAR[rand() % sizeof(BASE58_CHAR)], false);
+            }
+        }
+        return;
     }
-#endif
-    return rotation;
+
+    /* New frame */
+    frame++;
+    anim_timer = timer_read32();
+    for (uint32_t i = 0; i < oled_max_chars(); i++) {
+        /* Re-Initialization */
+        if (!rain_dropped[i]) {
+            rain_dropped[i] = true;
+            rain_y[i] = 0 - (rand() % oled_max_lines() / 2);
+            rain_len[i] = (oled_max_lines() / 4) + (rand() % oled_max_lines() / 2);
+            tail_y[i] = 0;
+            rain_speed[i] = 1 + (rand() % oled_max_chars() / 2);
+        }
+        /* Rain */
+        if ((frame % rain_speed[i]) == 0) {
+            if (rain_y[i] < 0) {
+                // Out of Display
+            } else if (rain_y[i] > rain_len[i]) {
+                if (tail_y[i] < oled_max_lines()) {
+                    oled_set_cursor(i, tail_y[i]++);
+                    oled_write_char(' ', false);
+                }
+            }
+            if (rain_y[i]++ == (oled_max_lines() + rain_len[i])) {
+                rain_dropped[i] = false;
+            }
+            /* Glitch */
+            uint32_t glitch_total = rand() % rain_len[i];
+            for (uint32_t j = 0; j < glitch_total; j++) {
+                if ((rain_y[i] > 0) && (tail_y[i] < oled_max_lines())) {
+                    uint32_t glitch_y = tail_y[i] + (rand() % (rain_y[i] - tail_y[i]));
+                    if (glitch_y < oled_max_lines()) {
+                        oled_set_cursor(i, glitch_y);
+                        oled_write_char(BASE58_CHAR[rand() % sizeof(BASE58_CHAR)], false);
+                    }
+                }
+            }
+        }
+    }
 }
 
 void oled_render_4layers_state(void) {
@@ -381,6 +496,12 @@ void oled_render_5layers_state(void) {
     led_t led_state = host_keyboard_led_state();
     uint32_t line_number = 0;
     bool require_offset = false;
+    /* clear the display */
+    for (uint32_t i = 0; i < (OLED_DISPLAY_HEIGHT / 8); i++) {
+        oled_set_cursor(0, i);
+        oled_advance_page(true);
+    }
+    /* draw the display */
     for (uint32_t i = 0; i < 5; i++) {
         oled_set_cursor(0, line_number);
         if (i == curr_layer) {
@@ -400,10 +521,10 @@ void oled_render_5layers_state(void) {
 
 bool oled_task_user(void) {
     if (!is_keyboard_master()) {
-        return true;
+        oled_render_matrix_rain();
     } else {
         oled_render_5layers_state();
-        return false;
     }
+    return false;
 }
 #endif
