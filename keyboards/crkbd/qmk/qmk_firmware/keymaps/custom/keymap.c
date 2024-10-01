@@ -79,7 +79,7 @@ enum layers {
 #define SG_S        S(G(KC_S))
 #define CTL_INS     C(KC_INS)
 #define SFT_INS     S(KC_INS)
-#define SFT_ALT     S(KC_LALT)
+#define ALT_SFT     A(KC_LSFT)
 #define CG_LEFT     C(G(KC_LEFT))
 #define CG_RGHT     C(G(KC_RGHT))
 #define GUI_D       G(KC_D)
@@ -89,30 +89,30 @@ enum layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3 (
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
-  //|    `   |    q   |    w   |    e   |    r   |    t   |                    |    y   |    u   |    i   |    o   |    p   |    \   |
-       KC_GRV,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSLS,
+  //|   Tab  |    q   |    w   |    e   |    r   |    t   |                    |    y   |    u   |    i   |    o   |    p   | BSpace |
+       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|  Caps  |    a   |    s   |    d   |    f   |    g   |                    |    h   |    j   |    k   |    l   |    ;   |    '   |
+  //|  Caps  |    a   |    s   |    d   |    f   |    g   |                    |    h   |    j   |    k   |    l   |   ;:   |   '"   |
       KC_CAPS,    LG_A,    LA_S,    LC_D,    LS_F,    KC_G,                         KC_H,    RS_J,    RC_K,    RA_L, RG_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //| LShift |    z   |    x   |    c   |    v   |    b   |                    |    n   |    m   |    ,   |    .   |    /   | RShift |
+  //| LShift |    z   |    x   |    c   |    v   |    b   |                    |    n   |    m   |   ,<   |   .>   |   /?   | RShift |
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                      //|   Esc  | L3(SPC)|  Tabs  |  |  BSPC  | L2(ENT)|   DEL  |
+                                      //|   Esc  | L3(SPC)|   Tab  |  | BSpace | L2(ENT)| Delete |
                                            LC_ESC, NUM_SPC,  LS_TAB,    RS_BSPC, NAV_ENT,  RC_DEL
                                       //|--------------------------|  |--------------------------|
   ),
 
   [_NAV] = LAYOUT_split_3x6_3 (
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
-  //|        |        |  SG+s  |Alt+PSCR| Insert |        |                    |        | PageUp |   Up   |PageDown| Delete |        |
-      XXXXXXX, XXXXXXX,    SG_S,ALT_PSCR,  KC_INS, XXXXXXX,                      XXXXXXX, KC_PGUP,   KC_UP, KC_PGDN,  KC_DEL, XXXXXXX,
+  //|   Esc  |        |  SG+s  |Alt+PSCR| Insert |        |                    |        | PageUp |   Up   |PageDown|        | Delete |
+       KC_ESC, XXXXXXX,    SG_S,ALT_PSCR,  KC_INS, XXXXXXX,                      XXXXXXX, KC_PGUP,   KC_UP, KC_PGDN, XXXXXXX,  KC_DEL,
   //|--------+--------|--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|        |  LGUI  |  LALT  |  LCTL  |  LSFT  |        |                    |  Home  |  Left  |  Down  |  Right |   End  | Keypad |
-      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT,  KC_END, MO_KPAD,
+  //|  Calc  |  LGUI  |  LALT  |  LCTL  |  LSFT  |        |                    |  Home  |  Left  |  Down  |  Right |   End  | Keypad |
+      KC_CALC, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT,  KC_END, MO_KPAD,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|        |        |        | LC+INS | LS+INS |        |                    |        | CG+Left| LGUI+D |CG+Right| LS+Alt |        |
-      _______, XXXXXXX, XXXXXXX, CTL_INS, SFT_INS, XXXXXXX,                      XXXXXXX, CG_LEFT,   GUI_D, CG_RGHT, SFT_ALT, _______,
+  //|        |        |        | LC+INS | LS+INS |        |                    |        | CG+Left| LGUI+D |CG+Right|        |        |
+      _______, XXXXXXX, XXXXXXX, CTL_INS, SFT_INS, XXXXXXX,                      XXXXXXX, CG_LEFT,   GUI_D, CG_RGHT, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                       //|        |Tri(SPC)|        |  |        |        |        |
                                           _______,FUNC_SPC, _______,    XXXXXXX, XXXXXXX, XXXXXXX
@@ -121,14 +121,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_NUM] = LAYOUT_split_3x6_3 (
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
-  //|        |    `   |    [   |        |        |        |                    |        |    -   |    =   |    ]   |    \   |        |
-      XXXXXXX,  KC_GRV, KC_LBRC, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_MINS,  KC_EQL, KC_RBRC, KC_BSLS, XXXXXXX,
+  //|        |   `~   |   [{   |        |        |        |                    |        |   -_   |   =+   |   ]}   |   \|   |        |
+      _______,  KC_GRV, KC_LBRC, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_MINS,  KC_EQL, KC_RBRC, KC_BSLS, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //| Keypad |    1   |    2   |    3   |    4   |    5   |                    |    6   |    7   |    8   |    9   |    0   |        |
-      MO_KPAD,    LG_1,    LA_2,    LC_3,    LS_4,    KC_5,                         KC_6,    RS_7,    RC_8,    RA_9,    RG_0, XXXXXXX,
+  //| Keypad |   1!   |   2@   |   3#   |   4$   |   5%   |                    |   6^   |   7&   |   8*   |   9(   |   0)   |        |
+      MO_KPAD,    LG_1,    LA_2,    LC_3,    LS_4,    KC_5,                         KC_6,    RS_7,    RC_8,    RA_9,    RG_0, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
   //|        |        |        |        |        |        |                    |        |        |        |        |        |        |
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, _______, _______, _______, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                       //|        |        |        |  |        |Tri(ENT)|        |
                                           XXXXXXX, XXXXXXX, XXXXXXX,    _______,FUNC_ENT, _______
@@ -159,8 +159,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|        |   F5   |   F6   |   F7   |   F8   | Rainbow|                    | Breath |  RSFT  |  RCTL  |  RALT  |  RGUI  |        |
       XXXXXXX,   KC_F5,   KC_F6,   KC_F7,   KC_F8, RGB_M_R,                      RGB_M_B, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-  //|        |   F9   |   F10  |   F11  |   F12  | Speed- |                    |  Hue-  |  Mute  |  Vol-  |  Vol+  |  Calc  |        |
-      XXXXXXX,   KC_F9,  KC_F10,  KC_F11,  KC_F12, RGB_SPD,                      RGB_HUD, KC_MUTE, KC_VOLD, KC_VOLU, KC_CALC, XXXXXXX,
+  //|        |   F9   |   F10  |   F11  |   F12  | Speed- |                    |  Hue-  |  Mute  |  Vol-  |  Vol+  |LA+Shift|        |
+      XXXXXXX,   KC_F9,  KC_F10,  KC_F11,  KC_F12, RGB_SPD,                      RGB_HUD, KC_MUTE, KC_VOLD, KC_VOLU, ALT_SFT, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                       //| Bright-|        | Bright+|  | On/Off |        |  Plain |
                                           RGB_VAD, XXXXXXX, RGB_VAI,    RGB_TOG, XXXXXXX, RGB_M_P
