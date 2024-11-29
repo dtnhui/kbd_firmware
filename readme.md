@@ -41,3 +41,5 @@ Please change `kb`, `kr` and `km` when build other.
 ![5_layers_animation](https://github.com/user-attachments/assets/dbff65e5-2c41-477a-b463-6ffeba1f707d)
 
 #### 5-Layers 128x64 Display Design (oled_128X64_render_5layers_state)
+![128x64_5layers](https://github.com/user-attachments/assets/52dce6af-29a0-42ff-902e-c8d2d81131d9)
+
